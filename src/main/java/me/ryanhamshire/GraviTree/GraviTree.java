@@ -6,12 +6,8 @@ import java.util.Collection;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Logger;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.World.Environment;
-import org.bukkit.WorldBorder;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.Command;
@@ -243,7 +239,7 @@ public class GraviTree extends JavaPlugin implements Listener
         if(!this.blockIsTreeTopper(aboveBlock)) return;
         
         int radius = 20;
-        if(brokenBlock.getType() == Material.LOG_2)
+        if(Tag.LOGS.isTagged(brokenBlock.getType()))
         {
             if(brokenBlock.getData() == 1)
             {
@@ -265,7 +261,7 @@ public class GraviTree extends JavaPlugin implements Listener
         Block faceBlock = ((Player)(event.getEntity())).getEyeLocation().getBlock();
         
         Material type = faceBlock.getType();
-        if(type == Material.LOG || type == Material.LOG_2 || type == Material.AIR)
+        if(Tag.LOGS.isTagged(type) || type == Material.AIR)
         {
             WorldBorder border = faceBlock.getWorld().getWorldBorder();
             if(border != null)
@@ -314,7 +310,7 @@ public class GraviTree extends JavaPlugin implements Listener
     private static boolean blockIsLog(Block block)
     {
         Material type = block.getType();
-        if(type == Material.LOG || type == Material.LOG_2)
+        if(Tag.LOGS.isTagged(type))
         {
             return true;
         }
@@ -327,7 +323,7 @@ public class GraviTree extends JavaPlugin implements Listener
     private boolean blockIsRootType(Block block)
     {
         Material type = block.getType();
-        if(type == Material.DIRT || type == Material.GRASS || type == Material.STONE || type == Material.COBBLESTONE || type == Material.STAINED_CLAY || type == Material.SAND || type == Material.HARD_CLAY)
+        if(type == Material.DIRT || type == Material.GRASS || type == Material.STONE || type == Material.COBBLESTONE || type == Material.STAINED_CLAY || type == Material.SAND || type == Material.TERRACOTTA)
         {
             return true;
         }
