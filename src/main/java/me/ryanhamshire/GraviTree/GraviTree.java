@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Logger;
 
+import com.buildatnight.utils.Untagged;
 import org.bukkit.*;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
@@ -323,7 +324,7 @@ public class GraviTree extends JavaPlugin implements Listener
     private boolean blockIsRootType(Block block)
     {
         Material type = block.getType();
-        if(type == Material.DIRT || type == Material.GRASS || type == Material.STONE || type == Material.COBBLESTONE || type == Material.STAINED_CLAY || type == Material.SAND || type == Material.TERRACOTTA)
+        if(type == Material.DIRT || type == Material.GRASS || type == Material.STONE || type == Material.COBBLESTONE || Untagged.TERRACOTTA.contains(type) || type == Material.SAND)
         {
             return true;
         }
@@ -337,7 +338,7 @@ public class GraviTree extends JavaPlugin implements Listener
     private boolean blockIsTreeTopper(Block block)
     {
         Material type = block.getType();
-        if(type == Material.LEAVES || type == Material.LEAVES_2 || type == Material.AIR || type == Material.SNOW)
+        if(Tag.LEAVES.isTagged(type) || type == Material.AIR || type == Material.SNOW)
         {
             return true;
         }
@@ -351,7 +352,7 @@ public class GraviTree extends JavaPlugin implements Listener
     private static boolean blockIsPassthrough(Block block)
     {
         Material type = block.getType();
-        if(type == Material.LEAVES || type == Material.LEAVES_2 || type == Material.LOG || type == Material.LOG_2 || type == Material.SNOW)
+        if(Tag.LEAVES.isTagged(type) || Tag.LOGS.isTagged(type) || type == Material.SNOW)
         {
             return true;
         }
@@ -366,7 +367,7 @@ public class GraviTree extends JavaPlugin implements Listener
         if(block.getY() < 0) return false;
         
         Material type = block.getType();
-        if(type == Material.LEAVES || type == Material.LEAVES_2 || type == Material.AIR || type == Material.VINE || type == Material.COCOA || type == Material.TORCH || type == Material.SNOW)
+        if(Tag.LEAVES.isTagged(type) || type == Material.AIR || type == Material.VINE || type == Material.COCOA || type == Material.TORCH || type == Material.SNOW)
         {
             return true;
         }
@@ -379,7 +380,7 @@ public class GraviTree extends JavaPlugin implements Listener
     static boolean blockIsTreeAdjacent(Block block)
     {
         Material type = block.getType();
-        if(type == Material.LEAVES || type == Material.LEAVES_2 || type == Material.AIR || type == Material.VINE || type == Material.COCOA || type == Material.TORCH || type == Material.SNOW || type == Material.GRASS || type == Material.DIRT || type == Material.STONE || type == Material.COBBLESTONE || type == Material.LONG_GRASS)
+        if(Tag.LEAVES.isTagged(type) || type == Material.AIR || type == Material.VINE || type == Material.COCOA || type == Material.TORCH || type == Material.SNOW || type == Material.GRASS || type == Material.DIRT || type == Material.STONE || type == Material.COBBLESTONE || type == Material.TALL_GRASS)
         {
             return true;
         }
@@ -416,7 +417,7 @@ public class GraviTree extends JavaPlugin implements Listener
             if(GraviTree.blockIsLog(this.blockToDrop))
             {
                 @SuppressWarnings("deprecation")
-                FallingBlock fallingBlock = blockToDrop.getWorld().spawnFallingBlock(blockToDrop.getLocation().add(.5, 0, .5), blockToDrop.getTypeId(), blockToDrop.getData());
+                FallingBlock fallingBlock = blockToDrop.getWorld().spawnFallingBlock(blockToDrop.getLocation().add(.5, 0, .5), blockToDrop.getType(), blockToDrop.getData());
                 fallingBlock.setDropItem(false);
                     
                 if(!GraviTree.blockIsLog(this.blockToDrop.getRelative(BlockFace.UP)))
